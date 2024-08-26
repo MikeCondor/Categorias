@@ -31,15 +31,15 @@ public class CategoriaController {
 	}
 	
 	@GetMapping("/findOne")
-	public String findOne(@RequestParam("idCategoria") @Nullable Integer idCategoria,
+	public String findOne(@RequestParam("id") @Nullable Integer idCategoria,
                           @RequestParam("opcion") @Nullable Integer opcion,
                           Model model) {
 		if (idCategoria != null) {
 			Categoria categoria = categoriaDAO.findOne(idCategoria);
-			model.addAttribute("Categoria", categoria);
+			model.addAttribute("categoria", categoria);
 		}
 		
-		if(opcion == 1) return "add-categorias";   // actualización
+		if(opcion == 1) return "categoria-add";   // actualización
 		else return "del-categorias";              // eliminación
 	}
 	
@@ -47,8 +47,8 @@ public class CategoriaController {
 	public String add(@RequestParam("id") @Nullable Integer id,
                       @RequestParam("nombre") @Nullable String nombre,
                       @RequestParam("descripcion") @Nullable String descripcion,
-                      @RequestParam("imagen") @Nullable String imagen,
                       @RequestParam("estado") @Nullable String estado,
+                      @RequestParam("imagen") @Nullable String imagen,
                       Model model) {
 		if(id == null) {
 			Categoria nuevaCategoria = new Categoria(0, nombre, descripcion, imagen, estado);
@@ -61,7 +61,7 @@ public class CategoriaController {
 	}
 
 	@GetMapping("/del")
-	public String del(@RequestParam("idCategoria") @Nullable Integer idCategoria) {
+	public String del(@RequestParam("id") @Nullable Integer idCategoria) {
 		categoriaDAO.del(idCategoria);
 		return "redirect:/categorias/findAll";
 	}
